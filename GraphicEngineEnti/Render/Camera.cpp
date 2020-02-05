@@ -1,18 +1,19 @@
 #include "precompiledHeader.h"
 #include "Camera.h"
-
+#include "../Engine.h"
 Camera::Camera() {
 
 }
 
 void Camera::updateViewProjection() {
-	view_proj = view * proj;
+	view_proj =  proj * view;
 
 }
 
 void Camera::lookAt(glm::vec3 new_eye, glm::vec3 new_target, glm::vec3 new_up_aux) {
 	pos = new_eye;
 	target = new_target;
+
 	
 	view = glm::lookAt(pos, target, new_up_aux);
 	updateViewProjection();
