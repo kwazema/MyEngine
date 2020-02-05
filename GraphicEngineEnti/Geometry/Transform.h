@@ -8,6 +8,7 @@ class Transform
 
 public:
 	Transform();
+	Transform(float x, float y, float z);
 	glm::mat4 getRotation() const { return rot; }
 	void setRotation(glm::mat4 new_rot) { rot = new_rot; }
 	glm::vec3 getPosition() const { return pos; }

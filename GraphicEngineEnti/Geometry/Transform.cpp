@@ -15,6 +15,11 @@ Transform::Transform()
 	rot = glm::identity<glm::mat4>();
 	pos = glm::vec3(0, 0, 0);
 }
+Transform::Transform(float x, float y, float z)
+{
+	rot = glm::identity<glm::mat4>();
+	pos = glm::vec3(x,y, z);
+}
 glm::vec3 Transform::getFront() const {
 	glm::mat4 inverted = glm::inverse(asMatrix()); 
 	return glm::normalize(glm::vec3(inverted[2]));
