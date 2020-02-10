@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Modules/RenderModule.h"
 #include "Modules/JoseModule.h"
-#include "Modules/SoncanModule.h"
+
 
 
 
@@ -10,6 +10,14 @@ Engine& Engine::get()
 {
 	static Engine instance;
 	return instance;
+}
+
+void Engine::SetCamera(Camera * newCamera)
+{
+	assert(newCamera);
+	delete cam;
+	cam = newCamera;
+
 }
 
 RenderModule& Engine::getRender()
@@ -50,7 +58,7 @@ void Engine::doFrame()
 	while (!glfwWindowShouldClose(render->getCtxWindow()->getWindowGL())) {
 		t = glfwGetTime() - t;
 		update(t);
-		moduleManager.render();
+		assert(cam);
 		render->render();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000) *t);
 		t = glfwGetTime();
@@ -60,7 +68,6 @@ void Engine::doFrame()
 
 void Engine::update(float dt)
 {
-
 	
 	moduleManager.update(dt);
 
@@ -75,13 +82,8 @@ void Engine::setModelObjectConstants(const glm::mat4& model, const glm::vec4& co
 void Engine::registerAllModules()
 {
 	JoseModule * module = new JoseModule;
-	SoncanModule * moduleSoncan = new SoncanModule;
+
 	
-
-
 	moduleManager.registerModule(module);
-	moduleManager.stopModule(module);
-
-	moduleManager.registerModule(moduleSoncan);
-
+//	moduleManager.stopModule(module);
 }

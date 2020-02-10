@@ -8,8 +8,10 @@ bool RenderModule::init()
 {
 	if (!initOpenGL()) return false;
 	initRender();
-	glEnable(GL_DEPTH_TEST);
-	 //glDepthFunc(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	return true;
 }
 
@@ -18,23 +20,10 @@ void RenderModule::render()
 {
 	
 
-	glm::vec3 pos = cam.getPosition();
+	
 
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		
-		if (glfwGetKey(window->getWindowGL(), GLFW_KEY_W) == GLFW_PRESS)
-		{
-			pos += 0.1f * glm::vec3(0, 0, -1);
-		}
-		if (glfwGetKey(window->getWindowGL(), GLFW_KEY_S) == GLFW_PRESS)
-		{
-			pos += 0.1f * glm::vec3(0, 0, 1);
-		}
-
-
-		cam.lookAt( pos, pos + glm::vec3(0,0,-1));
 		
 
 		for (auto& module : Engine::get().getActiveModules())
@@ -86,16 +75,13 @@ void RenderModule::initRender()
 	glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE,
 		sizeof(VtxPosColor), (void*)0);
 	glEnableVertexAttribArray(vcol_location);
-	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
+	glVertexAttribPointer(vcol_location, 4, GL_FLOAT, GL_FALSE,
 		sizeof(VtxPosColor), (void*)(sizeof(float) * 3));
 
 	glfwGetFramebufferSize(window->getWindowGL(),
 		&w, &h);
 
-	cam.setProjectionParams((float)glm::radians(45.0f),
-		w / h,
-		0.1f,
-		500.0f);
+	
 
 
 	glClearColor(0.21176470588235294, 0.7019607843137254
@@ -163,7 +149,7 @@ RenderModule::~RenderModule()
 void RenderModule::setModelObjectConstants(const glm::mat4 model, const glm::vec4 color)
 {
 
-	mvp = cam.getViewProjection() * model;
+	mvp = Engine::get().getCamera()->getViewProjection() * model;
 	glUseProgram(program);
 	glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const glm::float32*) & mvp);
 	glUniform4fv(glGetUniformLocation(program, "uColor"), 1, (const glm::float32*) &color);
