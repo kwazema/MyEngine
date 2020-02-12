@@ -35,10 +35,9 @@ void ModuleManager::startModule(Module * module)
 		module->start();
 		registerModule(module);
 	}
-	
-
-
 }
+
+
 void ModuleManager::stopModule(Module * module)
 {
 	auto it = std::find(activeModules.begin(), activeModules.end(), module);
@@ -112,4 +111,3 @@ void ModuleManager::render()
 	}
 
 }
-

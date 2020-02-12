@@ -22,7 +22,6 @@ extern Mesh cube;
 
   void JoseModule::stop() 
   {
-
 	  delete cam;
   }
 
@@ -88,7 +87,6 @@ extern Mesh cube;
 	target = pos + glm::vec3( sinf(newAngle) * cosf(newPitch),
 		sinf(newPitch), cosf(newAngle) * cosf(newPitch));
 	glm::vec3 front = cam->getFront();
-	//cam->getTransform().yawPitchToVector(front, newAngle, 0.0f);
 	
 	cam->getTransform().setPosition(pos);
 
@@ -98,8 +96,8 @@ extern Mesh cube;
   void JoseModule::renderDebug() 
   {
 	
-	  Engine::get().setModelObjectConstants(quad1.asMatrix(), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-	  quad.activateAndRender();
+	 Engine::get().setModelObjectConstants(quad1.asMatrix(), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+	 quad.activateAndRender();
 
 
 	 Engine::get().setModelObjectConstants(quad2.asMatrix(), glm::vec4(1, 0, 0, 1));
